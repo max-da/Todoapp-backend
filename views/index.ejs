@@ -9,10 +9,21 @@
     <h1> hej</h1>
 
     <%- include("add.ejs") %>       <p> <%= error %> </p>
+    <% if (Todoedit != ""){ %>
 
- <% if (data != null){ %> <% for(let i = 0; i < data.length; i++){
-        %> <p> <%= data[i].name %> </p>
-    <% } }%>
+        <%- include("edit.ejs") %>
+  <%  } %>
    
+ <% for(let i = 0; i < data.length; i++){
+        %> <p> <%= data[i].name %> </p> 
+        <a href="/delete/<%= data[i]._id %>" > delete</a>
+        <a href="/edit/<%= data[i]._id %>" > edit</a>
+        
+
+    
+     <% } %>
+    
+   
+
 </body>
 </html>
