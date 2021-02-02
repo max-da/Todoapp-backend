@@ -9,14 +9,27 @@
 <body>
     <div id="content-wrapper">
    <div id="banner"><h1>Todo-list</h1></div> 
-    <p id="add-input-error"> <%= error %> </p>
-<div id="content-box">
-    <%- include("add.ejs") %>      
 
-   
+<div id="content-box">
+    <div id="inpt-and-lis">
+        <% if (todoEdit =="") { %>
+            <%- include("add.ejs") %>      
+       <% } %>
+       <a href="/sort" > sort</a>
+    <% if (todoEdit != ""){ %>
+    
+        <%- include("edit.ejs") %>
+  <%  } %>
+  <% if (error != "") { %>
+   <div id="add-input-error-div"> <p id="add-input-error-p"><%=error%></p></div>
+ <% } %>
+ 
+
+
  <% for(let i = 0; i < data.length; i++){
         %> 
         <div class="todo-box">
+            
         <span class="todo-item"> <%= data[i].name %> </span> 
         <div class="link-box">
         <a href="/delete/<%= data[i]._id %>" > delete</a>
@@ -25,12 +38,9 @@
         </div>
     
      <% } %>
-    
     </div>
-    <% if (todoEdit != ""){ %>
-
-        <%- include("edit.ejs") %>
-  <%  } %>
+    </div>
+    
 </div>
 </body>
 </html>

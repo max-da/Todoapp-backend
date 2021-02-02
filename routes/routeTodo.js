@@ -38,7 +38,7 @@ router.get("/delete/:id",async (req, res)=> {
 
 router.get("/edit/:id", async(req, res)=> {
  try  { const todoEdit = await Todo.findOne({_id:req.params.id})
-    let error =" "
+    let error =""
     const data = await Todo.find()
     res.render("index.ejs",{todoEdit:todoEdit, error:error, data:data})}
     catch(err){
@@ -66,5 +66,30 @@ res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit})
     }
 
     res.redirect("/")
+})
+
+
+// sort 
+
+
+
+router.get("/sort", async (req, res)=>{
+    try {
+        const data = await Todo.find().sort({name:1})
+      
+        res.render("index.ejs", {data:data, error:"", todoEdit: ""})
+     
+    }
+    catch(err) {
+       console.log(err)
+    }
+    res.redirect("/")
+  
+}
+
+)
+
+router.post("/sort", (req,res)=>{
+    res.redirect("/adsadsaasdasd")
 })
 module.exports = router;
