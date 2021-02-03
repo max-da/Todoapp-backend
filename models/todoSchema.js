@@ -4,6 +4,7 @@ const todoSchema = new mongoose.Schema({
 
         name:{
             type: String,
+            lowercase: true,
             required: true,
             minlength: 2
 

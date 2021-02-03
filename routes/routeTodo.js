@@ -2,15 +2,49 @@ const express = require("express");
 const router = express.Router();
 const Todo = require("../models/todoSchema");
 
-router.get("/", async (req, res)=>{
+/*router.get("/", async (req, res)=>{
     try {
         const data = await Todo.find()
-        res.render("index.ejs", {data:data, error:"", todoEdit: ""})
+     
+    
+        res.render("index.ejs", {data:data, error:"", todoEdit: "",totaldata:"",dataToShow:"",dataPerPage:""})
     }
     catch(err) {
        console.log(err)
     }
+})*/ 
+router.get("/", async (req,res)=> {
+    const page = + req.query.page || 1;
+    const sorted = +req.query.sorted || 1;
+   // console.log(page+"asdas")
+    try{
+        const totaldata = await Todo.find().countDocuments()
+
+        const dataPerPage = 2;
+        const totalDataPart = Math.ceil(totaldata/dataPerPage);
+        const dataToShow = dataPerPage * page
+        console.log( dataToShow/dataPerPage + 1 )
+        const data = await Todo.find().limit(dataToShow).sort({name:sorted})
+
+        res.render("index.ejs",{
+            totaldata,
+            dataPerPage,
+            totalDataPart,
+            dataToShow,
+            data,
+            todoEdit:"",
+            error:""
+        },
+        
+        )
+    }
+    catch(err){
+        console.log(err)
+    }
 })
+
+
+
 router.get("/addData", async (req, res)=> {
     res.render("add.ejs")
 })
@@ -26,7 +60,12 @@ router.post("/addData", async (req, res)=> {
         const error = "Please enter a todo before submitting"
         const data = await Todo.find()
         const todoEdit = "";
-        res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit})
+        
+        res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit,totaldata,
+            dataPerPage,
+            totalDataPart,
+            dataToShow,
+           })
      }
     
 })
@@ -40,12 +79,19 @@ router.get("/edit/:id", async(req, res)=> {
  try  { const todoEdit = await Todo.findOne({_id:req.params.id})
     let error =""
     const data = await Todo.find()
-    res.render("index.ejs",{todoEdit:todoEdit, error:error, data:data})}
+    res.render("index.ejs",{todoEdit:todoEdit, error:error, data:data,totaldata:"",
+        dataPerPage:"",
+        totalDataPart:"",
+        dataToShow:"",})}
     catch(err){
         console.log(err)
         const error = "Please enter a todo before submitting"
         const data = await Todo.find()
-        res.render("index.ejs", {data:data, error: error})
+        res.render("index.ejs", {data:data, error: error,totaldata:"",
+        dataPerPage:"",
+        totalDataPart:"",
+        dataToShow:"",
+       })
     }
 })
 
@@ -62,7 +108,11 @@ console.log(err)
 const error = "Please finish editing todo before submitting"
 const data = await Todo.find()
 const todoEdit = "";
-res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit})
+res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit,  totaldata:"",
+    dataPerPage:"",
+    totalDataPart:"",
+    dataToShow:"",
+    data:""})
     }
 
     res.redirect("/")
@@ -73,11 +123,15 @@ res.render("index.ejs", {data:data, error: error, todoEdit:todoEdit})
 
 
 
-router.get("/sort", async (req, res)=>{
+/* router.get("/sort", async (req, res)=>{
     try {
         const data = await Todo.find().sort({name:1})
       
-        res.render("index.ejs", {data:data, error:"", todoEdit: ""})
+        res.render("index.ejs", {data:data, error:"", todoEdit: "",  totaldata:"",
+        dataPerPage:"",
+        totalDataPart:"",
+        dataToShow:"",
+        data:"",})
      
     }
     catch(err) {
@@ -89,7 +143,11 @@ router.get("/sort", async (req, res)=>{
 
 )
 
-router.post("/sort", (req,res)=>{
-    res.redirect("/adsadsaasdasd")
-})
+ */
+
+
+
 module.exports = router;
+
+
+

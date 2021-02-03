@@ -15,7 +15,7 @@
         <% if (todoEdit =="") { %>
             <%- include("add.ejs") %>      
        <% } %>
-       <a href="/sort" > sort</a>
+       <a href="/?page=<%=(dataToShow/dataPerPage)%>&&sorted=1"> Sortera A-Z  </a>
     <% if (todoEdit != ""){ %>
     
         <%- include("edit.ejs") %>
@@ -29,8 +29,9 @@
  <% for(let i = 0; i < data.length; i++){
         %> 
         <div class="todo-box">
-            
-        <span class="todo-item"> <%= data[i].name %> </span> 
+        <% let toBeCapped = data[i].name %>
+        <% let cappedString = (toBeCapped[0].toUpperCase() + toBeCapped.slice(1)); %>
+        <span class="todo-item"> <%=cappedString%> </span> 
         <div class="link-box">
         <a href="/delete/<%= data[i]._id %>" > delete</a>
         <a href="/edit/<%= data[i]._id %>" > edit</a>
@@ -38,6 +39,13 @@
         </div>
     
      <% } %>
+        <% if(totaldata !== dataToShow/dataPerPage){ %>
+            <a href="/?page=<%=(dataToShow/dataPerPage)+1%>">Visa fler</a>
+
+
+       <% }  else { %>
+        <a href="/?page=1">Visa mindre</a>
+   <% } %>
     </div>
     </div>
     
