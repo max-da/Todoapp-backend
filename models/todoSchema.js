@@ -6,7 +6,8 @@ const todoSchema = new mongoose.Schema({
             type: String,
             lowercase: true,
             required: true,
-            minlength: 2
+            minlength: 2,
+            maxlength: 15
 
         },
         date: {

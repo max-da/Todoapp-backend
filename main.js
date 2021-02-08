@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 require("dotenv/config")
-//req models
+
 const router = require("./routes/routeTodo");
 app.use("/", router)
 app.set("view engine", "ejs")
